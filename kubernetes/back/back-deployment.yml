@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: back
+  name: back
+  namespace: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - image: api-restaurant:v1.0.0
+        name: back
+        ports:
+        - containerPort: 3333
+        resources: {}
+status: {}
