@@ -20,15 +20,33 @@ spec:
         - containerPort: 5432
         volumeMounts:
         - name: postgresql-pv
-          mountPath: /var/lib/postgresql/data
+          mountPath: /var/lib/postgresql
+        - name: db-init-scripts
+          mountPath: /docker-entrypoint-initdb.d/init.sql
+          subPath: init.sql
+        - name: db-init-scripts
+          mountPath: /docker-entrypoint-initdb.d/insert_products.sql
+          subPath: insert_products.sql
         env:
         - name: POSTGRES_USER
-          value: "myuser"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: pg_user
         - name: POSTGRES_PASSWORD
-          value: "mypassword"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: pg_password
         - name: POSTGRES_DB
-          value: "mydb"
+          valueFrom:
+            configMapKeyRef:
+              name: db-config
+              key: pg_database
       volumes:
       - name: postgresql-pv
         persistentVolumeClaim:
           claimName: postgres-claim
+      - name: db-init-scripts
+        configMap:
+          name: db-init-scripts

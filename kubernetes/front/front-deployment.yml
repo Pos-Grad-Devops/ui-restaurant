@@ -18,8 +18,14 @@ spec:
     spec:
       containers:
       - image: ui-restaurant:v1.0.0
+        name: front
         ports:
         - containerPort: 4200
-        name: front
+        env:
+        - name: API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: front-config
+              key: api_url
         resources: {}
 status: {}

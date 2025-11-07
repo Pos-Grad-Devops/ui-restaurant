@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: back-config
+  namespace: backend
+data:
+  pg_host: "db-service.database"
+  pg_user: "postgres"
+  pg_password: "postgres"
+  pg_database: "restaurantdb"
+  pg_port: "5432"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-config
+  namespace: frontend
+data:
+  api_url: "http://back-service.backend:3333"
