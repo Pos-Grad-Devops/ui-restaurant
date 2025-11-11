@@ -1,59 +1,135 @@
+
 # UiRestaurant
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+UiRestaurant é uma aplicação web para gestão de pedidos, produtos, mesas e sessões em restaurantes, desenvolvida como parte de um projeto de pós-graduação em DevOps. O sistema é composto por um frontend em Angular, backend em Node.js/Express, banco de dados relacional e infraestrutura orquestrada com Docker e Kubernetes.
 
-## Development server
+## Sumário
 
-To start a local development server, run:
+- [Descrição do Projeto](#descrição-do-projeto)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura de Diretórios](#estrutura-de-diretórios)
+- [Como Executar Localmente](#como-executar-localmente)
+- [Testes](#testes)
+- [Infraestrutura com Docker e Kubernetes](#infraestrutura-com-docker-e-kubernetes)
+- [Autores](#autores)
+
+## Descrição do Projeto
+
+O UiRestaurant permite o gerenciamento completo de um restaurante, incluindo:
+- Cadastro e visualização de produtos
+- Gestão de pedidos
+- Controle de mesas e sessões
+- Interface web moderna e responsiva
+- API RESTful para integração
+
+O projeto é dividido em três principais partes:
+1. **front/**: Aplicação Angular (interface do usuário)
+2. **api/**: Backend Node.js/Express (serviços REST)
+3. **kubernetes/**: Manifests para orquestração dos serviços em ambiente cloud-native
+
+## Tecnologias Utilizadas
+
+- **Frontend:** Angular 20+
+- **Backend:** Node.js, Express, TypeScript
+- **Banco de Dados:** Relacional (configuração via scripts SQL)
+- **Docker:** Containers para front, api e banco de dados
+- **Kubernetes:** Orquestração dos serviços, namespaces, deployments, services, configmaps, PVC
+- **Ferramentas DevOps:** Docker Compose, scripts de inicialização, CI/CD (sugestão)
+
+## Estrutura de Diretórios
+
+```
+├── api/           # Backend Node.js/Express
+│   ├── src/
+│   ├── controllers/
+│   ├── database/
+│   ├── middlewares/
+│   ├── routes/
+│   └── utils/
+├── front/         # Frontend Angular
+│   ├── src/
+│   ├── app/
+│   ├── assets/
+│   └── scripts/
+├── kubernetes/    # Manifests para orquestração
+│   ├── back/
+│   ├── db/
+│   ├── front/
+│   └── logs/
+├── docker-compose.yml
+├── init.sql
+├── insert_products.sql
+└── README.md
+```
+
+## Como Executar Localmente
+
+### Pré-requisitos
+- Node.js >= 18
+- Angular CLI
+- Docker e Docker Compose
+
+### Backend (API)
 
 ```bash
+cd api
+npm install
+npm run start
+```
+Por padrão, a API estará disponível em `http://localhost:3000`.
+
+### Frontend (Angular)
+
+```bash
+cd front
+npm install
 ng serve
 ```
+Acesse `http://localhost:4200` no navegador.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Usando Docker Compose
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para subir todos os serviços (front, api, db) via containers:
 
 ```bash
-ng generate --help
+docker-compose up --build
 ```
 
-## Building
+## Testes
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
+### Frontend
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+### Backend
 ```bash
-ng e2e
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Infraestrutura com Docker e Kubernetes
 
-## Additional Resources
+### Docker
+O projeto possui Dockerfiles para o frontend e backend, permitindo a criação de containers isolados. O arquivo `docker-compose.yml` orquestra os serviços localmente para desenvolvimento e testes.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Kubernetes
+Na pasta `kubernetes/` estão os manifests para deploy em clusters Kubernetes:
+- **back/**: Deployments, Services, ConfigMaps para o backend
+- **db/**: Deployments, PVC, ConfigMaps para o banco de dados
+- **front/**: Deployments, Services, ConfigMaps para o frontend
+
+Para aplicar os recursos em um cluster Kubernetes:
+
+```bash
+kubectl apply -f kubernetes/back/
+kubectl apply -f kubernetes/db/
+kubectl apply -f kubernetes/front/
+```
+Scripts `apply-all.sh` facilitam a aplicação de todos os recursos de cada módulo.
+
+## Autores
+
+Projeto desenvolvido por alunos da pós-graduação em DevOps.
+
+---
+Para dúvidas ou sugestões, abra uma issue ou entre em contato com os mantenedores.
